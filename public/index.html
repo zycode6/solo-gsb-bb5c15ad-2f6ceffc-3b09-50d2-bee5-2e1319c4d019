@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>访谈稿匿名化映射编辑器</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">Anno</span>
+      <h1>访谈稿匿名化映射编辑器</h1>
+    </div>
+    <div class="top-actions">
+      <button id="btn-sample-top" class="btn" type="button">加载内置示例</button>
+      <button id="btn-clear" class="btn btn-ghost" type="button">清空规则</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- 左：原稿 / 预览 -->
+    <section class="panes">
+      <div class="pane-col">
+        <div class="pane-head">
+          <h2>原稿（只读，可框选）</h2>
+          <span id="src-meta" class="pane-meta"></span>
+        </div>
+        <div id="src-pane" class="pane" tabindex="0">
+          <div id="src-content" class="pane-content"></div>
+        </div>
+        <p class="pane-hint">用鼠标在原稿中框选片段，再通过浮层或右侧规则登记为某个人物。</p>
+      </div>
+
+      <div class="pane-col">
+        <div class="pane-head">
+          <h2>匿名预览（不改动原稿）</h2>
+          <span id="prev-meta" class="pane-meta"></span>
+        </div>
+        <div id="prev-pane" class="pane" tabindex="0">
+          <div id="prev-content" class="pane-content"></div>
+        </div>
+        <p class="pane-hint">点击任意命中片段，原稿与预览中对应的区间会同时高亮。</p>
+      </div>
+
+      <div id="statusbar" class="statusbar"></div>
+    </section>
+
+    <!-- 右：人物规则 -->
+    <aside class="sidebar">
+      <div class="side-head">
+        <h2>人物规则</h2>
+        <button id="btn-undo" class="btn btn-small" type="button" disabled>撤销最近一次规则</button>
+      </div>
+
+      <form id="rule-form" class="rule-form">
+        <label class="field">
+          <span>统一代号</span>
+          <input id="input-code" type="text" maxlength="16" placeholder="如：甲 / A / 受访者1" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>称呼（多个用逗号或空格分隔）</span>
+          <input id="input-aliases" type="text" placeholder="如：王总,王海涛,老王" autocomplete="off" />
+        </label>
+        <button class="btn btn-primary btn-block" type="submit">＋ 登记新人物</button>
+      </form>
+
+      <div id="rules-list" class="rules-list"></div>
+    </aside>
+  </main>
+
+  <!-- 框选浮层 -->
+  <div id="sel-toolbar" class="sel-toolbar" hidden>
+    <span id="sel-text" class="sel-text"></span>
+    <select id="sel-rule" title="登记到人物"></select>
+    <button id="sel-apply" class="btn btn-small btn-primary" type="button">框选为该人物</button>
+  </div>
+
+  <!-- 初始录入遮罩 -->
+  <div id="entry-overlay" class="overlay">
+    <div class="entry-card">
+      <h2>粘贴访谈原稿</h2>
+      <textarea id="entry-textarea" placeholder="在此粘贴访谈稿原文……"></textarea>
+      <div class="entry-actions">
+        <button id="btn-load" class="btn btn-primary" type="button">载入原稿</button>
+        <button id="btn-sample-entry" class="btn" type="button">加载内置示例</button>
+      </div>
+      <p class="entry-tip">原稿仅保存在当前浏览器页面中，不会被改写；匿名结果在预览区单独生成。</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="anonymizer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
